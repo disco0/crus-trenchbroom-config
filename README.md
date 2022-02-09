@@ -2,6 +2,10 @@
 
 Mod for Cruelty Squad mappers that rebuilds a TrenchBroom game definition folder on start up with improved GameConfig.cfg and mods-extended FGD.
 
+## Requirements
+
+Requires [`crus-modloader`](https://github.com/crustyrashky/crus-modloader) v0.2.2 or newer installed. At time of writing, only [prerelease versions](https://github.com/disco0/crus-modloader/releases) of v0.2.2 are available and should be used until official release.
+
 ## Config
 
 If not found, a config file at the path `user://tb-conf.cfg` is created with the defaults (which are also used individually if they're not set):
