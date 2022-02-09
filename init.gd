@@ -105,7 +105,9 @@ func write_game_config():
 	# method with all other's calls inlined.
 	export_game_defs(base_tb_config_folder)
 
-# Replacement for set_export_file methods in trenchbroom game resources
+
+# Replacement for set_export_file methods in trenchbroom game resources, includes some additional
+# operations
 func export_game_defs(game_config_folder) -> void:
 	if not game_config_folder.trenchbroom_games_folder:
 		dprint("Skipping export: No TrenchBroom games folder", 'export_game_defs')
@@ -196,6 +198,14 @@ func export_game_defs(game_config_folder) -> void:
 
 		#endregion Inline QodotFGDFile.set_export_file
 
+	# Also export starter map to game defs folder if found in expected path
+	if config_dir.file_exists(GAME_CONFIG_VALVE_INITAL_MAP_PATH):
+		var map_out_path: String = game_config_folder.trenchbroom_games_folder.plus_file(game_config_folder.game_name).plus_file(GAME_CONFIG_VALVE_INITAL_MAP_PATH.get_file())
+
+		var map_copy_err: int = config_dir.copy(GAME_CONFIG_VALVE_INITAL_MAP_PATH,  map_out_path)
+		if map_copy_err != OK:
+			dprint("[WARNING] Error copying initial map file to game defs folder:  <%s> -> <%s>" % [ GAME_CONFIG_VALVE_INITAL_MAP_PATH, map_out_path ], 'export_game_defs')
+
 	dprint("Export complete", 'export_game_defs')
 
 func game_file_build_class_text(export_config_file) -> String:
@@ -260,3 +270,5 @@ const GAME_CONFIG_FILE_BASE_TEXT := """{
 		]
 	}
 }"""
+
+const GAME_CONFIG_VALVE_INITAL_MAP_PATH = MOD_BASE + '/assets/initial_valve.map'

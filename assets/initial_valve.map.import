@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/initial_valve.map-e41fa2b4dfba5a0d143cf2e8ee71f44a.tres"
+
+[deps]
+
+source_file="res://MOD_CONTENT/trenchbroom-config/assets/initial_valve.map"
+dest_files=[ "res://.import/initial_valve.map-e41fa2b4dfba5a0d143cf2e8ee71f44a.tres" ]
+
+[params]
+

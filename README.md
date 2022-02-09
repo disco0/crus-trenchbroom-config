@@ -1,12 +1,12 @@
 # CruS TrenchBroom Game Definiton Generator
 
-Mod for Cruelty Squad mappers that rebuilds a TrenchBroom game definition folder on start up with improved GameConfig.cfg and mods-extended FGD.
+Mod for Cruelty Squad mappers that rebuilds a TrenchBroom game definition folder on start up with improved GameConfig.cfg, ods-extended FGD, and improved initial map.
 
 ![demo-name-icon](media/tb-name-icon-demo-01.png)
 
 ## Requirements
 
-Requires [`crus-modloader`](https://github.com/crustyrashky/crus-modloader) v0.2.2 or newer installed. At time of writing, only [prerelease versions](https://github.com/disco0/crus-modloader/releases) of v0.2.2 are available and should be used until official release.
+Requires [`crus-modloader`](https://github.com/crustyrashky/crus-modloader) `v0.2.2` or newer installed. At time of writing, only [prerelease versions](https://github.com/disco0/crus-modloader/releases) of `v0.2.2` are available and should be used until official release.
 
 ## Config
 
