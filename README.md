@@ -1,6 +1,6 @@
 # CruS TrenchBroom Game Definiton Generator
 
-Mod for Cruelty Squad mappers that rebuilds a TrenchBroom game definition folder on start up with improved GameConfig.cfg, ods-extended FGD, and improved initial map.
+Mod for Cruelty Squad mappers that rebuilds a TrenchBroom game definition folder on start up with improved GameConfig.cfg, nods-extended FGD, and improved initial map.
 
 ![demo-name-icon](media/tb-name-icon-demo-01.png)
 
