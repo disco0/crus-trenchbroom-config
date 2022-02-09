@@ -1,0 +1,8 @@
+{
+    "name": "trenchbroom-config",
+    "author": "disk0",
+    "version": "0.0.1",
+    "priority": 0,
+    "description": "Automatic TrenchBroom game definition generator",
+    "init": "res://MOD_CONTENT/trenchbroom-config/init.gd"
+}
