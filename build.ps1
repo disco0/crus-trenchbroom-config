@@ -3,6 +3,9 @@
 
 using namespace System.IO
 
+[CmdletBinding()]
+param()
+
 function Get-ImportDepsPaths()
 {
     [cmdletbinding()]
@@ -27,6 +30,41 @@ function Get-ImportDepsPaths()
 
     @((Get-Content $ImportPath | Select-String '^dest_files') -replace '^dest_files=', '' | ConvertFrom-Json).
         ForEach{ [Path]::GetFullPath([Path]::Join($ProjectBase, $_ -Replace '^res:\/+', "")) }
+}
+
+# Via https://stackoverflow.com/a/69965594/12697514
+function Copy-Folder
+{
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [String]$FromPath,
+
+        [Parameter(Mandatory)]
+        [String]$ToPath,
+
+        [string[]] $Exclude
+    )
+    if (Test-Path $FromPath -PathType Container)
+    {
+        New-Item $ToPath -ItemType Directory -ErrorAction SilentlyContinue | Out-Null
+        @(Get-ChildItem $FromPath -Force).
+            ForEach{
+                # Avoid the nested pipeline variable
+                $child = $_
+                $target_path = Join-Path $ToPath $child.Name
+                if (($Exclude | ForEach-Object { $child.Name -like $_ }) -notcontains $true)
+                {
+                    if (Test-Path $target_path)
+                    {
+                        Remove-Item $target_path -Recurse -Force
+                    }
+
+                    Copy-Item $child.FullName $target_path
+                    Copy-Folder -FromPath $child.FullName -ToPath $target_path -Exclude:$Exclude
+                }
+            }
+    }
 }
 
 function local:rebuild()
@@ -66,7 +104,6 @@ function local:rebuild()
         }
     }
 
-
     $customModInstallDir = "C:\csquad\user\mods\$modName"
     $modInstallDir =
         if(Test-Path $customModInstallDir -PathType Container)
@@ -77,6 +114,7 @@ function local:rebuild()
         {
             "$ENV:APPDATA\Godot\app_userdata\Cruelty Squad\mods\$modName"
         }
+
     if(Test-Path $modInstallDir)
     {
         if(Test-Path $modInstallDir -PathType Leaf)
@@ -89,9 +127,9 @@ function local:rebuild()
         mkdir $modInstallDir
     }
 
-    $copyExcludes = Write-Output .git media mod.zip mod.json README.md $tmpZipDir
+    [string[]] $copyExcludes = @(".git*", "media", "mod.zip", "mod.json", "README.md", "*.ps1", "$tmpZipDir" )
 
-    Copy-Item -Recurse -Verbose -Exclude $copyExcludes "$modDir" "$tmpZipModContentDir\"
+    Copy-Folder -Verbose -Exclude $copyExcludes -FromPath "$modDir" -ToPath "$tmpZipModContentDir"
 
     $modZipOutPath = "$modInstallDir\mod.zip"
     if (Test-Path $modZipOutPath) { Remove-Item -Verbose $modZipOutPath }
